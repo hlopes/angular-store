@@ -8,11 +8,9 @@ import { Cart, CartItem } from '../types/cart'
   providedIn: 'root',
 })
 export class CartService {
-  cart = new BehaviorSubject<Cart>({ items: [] })
-
   snackBar = inject(MatSnackBar)
 
-  constructor() {}
+  cart = new BehaviorSubject<Cart>({ items: [] })
 
   addToCart(itemToAdd: CartItem) {
     const items = [...this.cart.value.items]
@@ -26,6 +24,17 @@ export class CartService {
 
     this.cart.next({ items })
     this.snackBar.open('1 item added to cart.', 'Ok', { duration: 3000 })
-    console.log('### ', this.cart.value)
+  }
+
+  getTotal(): number {
+    return this.cart.value.items.reduce(
+      (acc, item) => acc + item.quantity * item.price,
+      0
+    )
+  }
+
+  clearCart() {
+    this.cart.next({ items: [] })
+    this.snackBar.open('Cart is empty.', 'Ok', { duration: 3000 })
   }
 }

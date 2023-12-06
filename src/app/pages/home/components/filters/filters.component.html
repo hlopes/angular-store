@@ -4,7 +4,7 @@
     <mat-panel-title>CATEGORIES</mat-panel-title>
   </mat-expansion-panel-header>
   <mat-selection-list [multiple]="false">
-    @for (category of categories; track category) {
+    @for(category of categories; track category) {
     <mat-list-option [value]="category" (click)="onShowCategory(category)">
       {{ category }}
     </mat-list-option>

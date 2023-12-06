@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { CommonModule } from '@angular/common'
 import { MatCardModule } from '@angular/material/card'
@@ -7,6 +7,7 @@ import { MatTableModule } from '@angular/material/table'
 import { MatIconModule } from '@angular/material/icon'
 
 import { Cart, CartItem } from '../../types/cart'
+import { CartService } from '../../services/cart.service'
 
 @Component({
   selector: 'app-cart',
@@ -22,24 +23,9 @@ import { Cart, CartItem } from '../../types/cart'
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
-  cart: Cart = {
-    items: [
-      {
-        product: 'https://via.placeholder.com/150',
-        name: 'Sneackers',
-        price: 150,
-        quantity: 1,
-        id: 1,
-      },
-      {
-        product: 'https://via.placeholder.com/150',
-        name: 'Sneackers',
-        price: 150,
-        quantity: 2,
-        id: 1,
-      },
-    ],
-  }
+  cartService: CartService = inject(CartService)
+
+  cart?: Cart
 
   dataSource: CartItem[] = []
 
@@ -53,10 +39,11 @@ export class CartComponent implements OnInit {
   ]
 
   ngOnInit(): void {
-    this.dataSource = this.cart.items
+    this.cartService.cart.subscribe((_cart) => (this.cart = _cart))
+    this.dataSource = this.cart?.items ?? []
   }
 
-  getTotal(items: CartItem[]): number {
-    return items.reduce((acc, item) => acc + item.quantity * item.price, 0)
+  getTotal(): number {
+    return this.cartService.getTotal()
   }
 }
