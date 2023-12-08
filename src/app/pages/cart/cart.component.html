@@ -1,4 +1,4 @@
-@if(cart.items.length) {
+@if(cart?.items?.length) {
 <mat-card class="max-w-7xl mx-auto">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full">
     <ng-container matColumnDef="product">
@@ -34,9 +34,13 @@
       <th mat-header-cell *matHeaderCellDef>Quantity</th>
       <td mat-cell *matCellDef="let element">
         <div class="flex items-center">
-          <button mat-icon-button><mat-icon>remove</mat-icon></button>
+          <button (click)="onDecreaseQuantity(element)" mat-icon-button>
+            <mat-icon>remove</mat-icon>
+          </button>
           <span>{{ element.quantity }}</span>
-          <button mat-icon-button><mat-icon>add</mat-icon></button>
+          <button (click)="onIncreaseQuantity(element)" mat-icon-button>
+            <mat-icon>add</mat-icon>
+          </button>
         </div>
       </td>
       <td mat-footer-cell *matFooterCellDef></td>
@@ -54,12 +58,22 @@
     </ng-container>
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-raised-button color="warn" class="float-right">
-          Cleat All
+        <button
+          (click)="onClearCart()"
+          mat-raised-button
+          color="warn"
+          class="float-right"
+        >
+          Clear All
         </button>
       </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-mini-fab color="warn" class="float-right">
+        <button
+          (click)="onRemoveItem(element)"
+          mat-mini-fab
+          color="warn"
+          class="float-right"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </td>
@@ -76,7 +90,9 @@
 </mat-card>
 } @else {
 <mat-card class="max-w-7xl mx-auto">
-  <p>Your cart is empty</p>
-  <button mat-raised-button routerLink="/home">Start shopping</button>
+  <div class="flex gap-4 items-center p-4">
+    <p>Your cart is empty</p>
+    <button mat-raised-button routerLink="/home">Start shopping</button>
+  </div>
 </mat-card>
 }

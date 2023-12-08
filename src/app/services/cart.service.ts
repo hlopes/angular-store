@@ -37,4 +37,28 @@ export class CartService {
     this.cart.next({ items: [] })
     this.snackBar.open('Cart is empty.', 'Ok', { duration: 3000 })
   }
+
+  removeItem(item: CartItem) {
+    const filteredItems = this.cart.value.items.filter(
+      (_item) => _item.id !== item.id
+    )
+
+    this.cart.next({
+      items: filteredItems,
+    })
+    this.snackBar.open('1 Item removed from the Cart.', 'Ok', {
+      duration: 3000,
+    })
+  }
+
+  decreaseQuantity(item: CartItem) {
+    const items = [...this.cart.value.items]
+    const itemInCart = items.find((_item) => _item.id === item.id)
+
+    if (itemInCart) {
+      itemInCart.quantity -= 1
+    }
+
+    this.cart.next({ items: items.filter((_item) => item.quantity) })
+  }
 }

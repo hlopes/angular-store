@@ -27,7 +27,7 @@ export class CartComponent implements OnInit {
 
   cart?: Cart
 
-  dataSource: CartItem[] = []
+  // dataSource: CartItem[] = []
 
   displayedColumns: string[] = [
     'product',
@@ -38,12 +38,32 @@ export class CartComponent implements OnInit {
     'action',
   ]
 
+  get dataSource() {
+    return this.cart?.items ?? []
+  }
+
   ngOnInit(): void {
     this.cartService.cart.subscribe((_cart) => (this.cart = _cart))
-    this.dataSource = this.cart?.items ?? []
+    // this.dataSource = this.cart?.items ?? []
   }
 
   getTotal(): number {
     return this.cartService.getTotal()
+  }
+
+  onClearCart() {
+    this.cartService.clearCart()
+  }
+
+  onRemoveItem(item: CartItem) {
+    this.cartService.removeItem(item)
+  }
+
+  onDecreaseQuantity(item: CartItem) {
+    this.cartService.decreaseQuantity(item)
+  }
+
+  onIncreaseQuantity(item: CartItem) {
+    this.cartService.addToCart(item)
   }
 }
