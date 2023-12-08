@@ -1,7 +1,10 @@
 <mat-toolbar class="max-w-7xl mx-auto border-x justify-between">
   <a routerLink="/home">Angular 17 Store</a>
   <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon [matBadge]="itemsQuantity" [matBadgeHidden]="!itemsQuantity"
+    <mat-icon
+      [matBadge]="itemsQuantity"
+      [matBadgeHidden]="!itemsQuantity"
+      aria-hidden="false"
       >shopping_cart</mat-icon
     >
   </button>
@@ -15,7 +18,9 @@
       <div class="py-3">
         @for(item of cart?.items; track item) {
         <div class="flex justify-between font-light mb-2">
-          {{ item.name }} x {{ item.quantity }}
+          <span class="truncate block"
+            >{{ item.name }} x {{ item.quantity }}</span
+          >
           <span class="font-bold">{{ item.price | currency }}</span>
         </div>
         }

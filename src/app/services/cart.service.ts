@@ -20,10 +20,10 @@ export class CartService {
       itemInCart.quantity += 1
     } else {
       items.push(itemToAdd)
+      this.snackBar.open('1 item added to cart.', 'Ok', { duration: 3000 })
     }
 
     this.cart.next({ items })
-    this.snackBar.open('1 item added to cart.', 'Ok', { duration: 3000 })
   }
 
   getTotal(): number {
@@ -57,8 +57,10 @@ export class CartService {
 
     if (itemInCart) {
       itemInCart.quantity -= 1
-    }
 
-    this.cart.next({ items: items.filter((_item) => item.quantity) })
+      const withoutItemsNoQuantity = items.filter((_item) => item.quantity)
+
+      this.cart.next({ items: withoutItemsNoQuantity })
+    }
   }
 }

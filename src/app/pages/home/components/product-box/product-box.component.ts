@@ -15,14 +15,8 @@ export class ProductBoxComponent {
   @Input()
   fullWidthMode = false
 
-  product?: Product = {
-    id: 1,
-    title: 'Sneackers',
-    price: 150,
-    category: 'shoes',
-    description: 'Description',
-    image: 'https://via.placeholder.com/150',
-  }
+  @Input()
+  product?: Product
 
   @Output()
   addToCart = new EventEmitter<Product>()

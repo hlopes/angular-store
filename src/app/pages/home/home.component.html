@@ -11,11 +11,20 @@
   <mat-drawer-content class="p-6">
     <app-product-header
       (columnCountChange)="onColumnCountChange($event)"
+      (itemsCountChange)="onItemCountChange($event)"
+      (sortChange)="onSortChange($event)"
     ></app-product-header>
     <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
+      @for(product of products; track product) {
       <mat-grid-tile>
-        <app-product-box (addToCart)="onAddToCart($event)" class="w-full" [fullWidthMode]="cols === 1"
-      /></mat-grid-tile>
+        <app-product-box
+          [product]="product"
+          (addToCart)="onAddToCart($event)"
+          class="w-full"
+          [fullWidthMode]="cols === 1"
+        />
+      </mat-grid-tile>
+      }
     </mat-grid-list>
   </mat-drawer-content>
 </mat-drawer-container>

@@ -17,12 +17,22 @@ export class ProductHeaderComponent {
   @Output()
   columnCountChange = new EventEmitter<number>()
 
+  @Output()
+  itemsCountChange = new EventEmitter<number>()
+
+  @Output()
+  sortChange = new EventEmitter<string>()
+
   onSortUpdated(newSort: string): void {
     this.sort = newSort
+
+    this.sortChange.emit(newSort)
   }
 
   onItemsCountUpdated(newItemsCount: number): void {
     this.itemsCount = newItemsCount
+
+    this.itemsCountChange.emit(newItemsCount)
   }
 
   onColumnsUpdated(colsNumber: number): void {
