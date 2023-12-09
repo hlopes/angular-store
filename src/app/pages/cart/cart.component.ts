@@ -7,7 +7,9 @@ import { MatTableModule } from '@angular/material/table'
 import { MatIconModule } from '@angular/material/icon'
 
 import { Cart, CartItem } from '../../types/cart'
+
 import { CartService } from '../../services/cart.service'
+import { CheckoutService } from '../../services/checkout.service'
 
 @Component({
   selector: 'app-cart',
@@ -23,7 +25,8 @@ import { CartService } from '../../services/cart.service'
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
-  cartService: CartService = inject(CartService)
+  private readonly cartService: CartService = inject(CartService)
+  private readonly checkoutService: CheckoutService = inject(CheckoutService)
 
   cart?: Cart
 
@@ -65,5 +68,9 @@ export class CartComponent implements OnInit {
 
   onIncreaseQuantity(item: CartItem) {
     this.cartService.addToCart(item)
+  }
+
+  onCheckout() {
+    this.checkoutService.checkout(this.cart?.items ?? [])
   }
 }
