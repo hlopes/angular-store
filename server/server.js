@@ -83,8 +83,6 @@ app.post('/checkout', async (req, res, next) => {
       cancel_url: `${YOUR_DOMAIN}/cancel.html`,
     })
 
-    console.log('### session.url', session.url)
-
     res.status(200).json(session)
     // res.redirect(303, session.url)
   } catch (error) {
