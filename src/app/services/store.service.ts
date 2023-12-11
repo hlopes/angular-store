@@ -2,10 +2,9 @@ import { Injectable, inject } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 
-import { Product } from '../types/product'
+import { environment } from '../../environments/environment'
 
-// TODO: add env var
-const STORE_BASE_URL = 'https://fakestoreapi.com'
+import { Product } from '../types/product'
 
 @Injectable({
   providedIn: 'root',
@@ -20,13 +19,15 @@ export class StoreService {
   ): Observable<Product[]> {
     const queryString = `?sort=${sort}&limit=${limit}`
     const urlWithCategory = category
-      ? `${STORE_BASE_URL}/products/category/${category}`
-      : `${STORE_BASE_URL}/products`
+      ? `${environment.storeApiBaseUrl}/products/category/${category}`
+      : `${environment.storeApiBaseUrl}/products`
 
     return this.http.get<Product[]>(`${urlWithCategory}${queryString}`)
   }
 
   getAllCategories(): Observable<string[]> {
-    return this.http.get<string[]>(`${STORE_BASE_URL}/products/categories`)
+    return this.http.get<string[]>(
+      `${environment.storeApiBaseUrl}/products/categories`
+    )
   }
 }

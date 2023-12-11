@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatMenuModule } from '@angular/material/menu'
 
 import { Cart } from '../../types/cart'
+
 import { CartService } from '../../services/cart.service'
 
 @Component({
@@ -25,7 +26,7 @@ import { CartService } from '../../services/cart.service'
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
-  cartService: CartService = inject(CartService)
+  private readonly cartService: CartService = inject(CartService)
 
   cart?: Cart
 
@@ -46,5 +47,9 @@ export class HeaderComponent implements OnInit {
 
   onClearCart() {
     this.cartService.clearCart()
+  }
+
+  onLogout() {
+    throw new Error('Method not implemented.')
   }
 }

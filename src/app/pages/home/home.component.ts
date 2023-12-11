@@ -31,7 +31,7 @@ const ROW_HEIGHTS: { [key: number]: number } = {
     ProductBoxComponent,
   ],
 })
-export default class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
   private readonly cartService = inject(CartService)
   private readonly storeService = inject(StoreService)
 
