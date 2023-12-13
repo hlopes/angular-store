@@ -25,8 +25,8 @@ import { CheckoutService } from '../../services/checkout.service'
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
-  private readonly cartService: CartService = inject(CartService)
-  private readonly checkoutService: CheckoutService = inject(CheckoutService)
+  cartService: CartService = inject(CartService)
+  checkoutService: CheckoutService = inject(CheckoutService)
 
   cart?: Cart
 

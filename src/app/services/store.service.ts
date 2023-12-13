@@ -10,13 +10,9 @@ import { Product } from '../types/product'
   providedIn: 'root',
 })
 export class StoreService {
-  private readonly http = inject(HttpClient)
+  http = inject(HttpClient)
 
-  getAllProducts(
-    limit = '12',
-    sort = 'desc',
-    category = ''
-  ): Observable<Product[]> {
+  getAllProducts(limit = '12', sort = 'desc', category = ''): Observable<Product[]> {
     const queryString = `?sort=${sort}&limit=${limit}`
     const urlWithCategory = category
       ? `${environment.storeApiBaseUrl}/products/category/${category}`
@@ -26,8 +22,6 @@ export class StoreService {
   }
 
   getAllCategories(): Observable<string[]> {
-    return this.http.get<string[]>(
-      `${environment.storeApiBaseUrl}/products/categories`
-    )
+    return this.http.get<string[]>(`${environment.storeApiBaseUrl}/products/categories`)
   }
 }

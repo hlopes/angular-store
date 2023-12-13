@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, inject } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core'
+import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatIconModule } from '@angular/material/icon'
@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu'
 import { Cart } from '../../types/cart'
 
 import { CartService } from '../../services/cart.service'
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'app-header',
@@ -26,7 +27,9 @@ import { CartService } from '../../services/cart.service'
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
-  private readonly cartService: CartService = inject(CartService)
+  platformId = inject(PLATFORM_ID)
+  authService = inject(AuthService)
+  cartService: CartService = inject(CartService)
 
   cart?: Cart
 
@@ -38,6 +41,15 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.authService
+        .getCurrentUser()
+        .subscribe({
+          next: (res) => this.authService.currentUserSig.set(res),
+          error: () => this.authService.currentUserSig.set(null),
+        })
+    }
+
     this.cartService.cart.subscribe((_cart) => (this.cart = _cart))
   }
 
@@ -50,6 +62,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout() {
-    throw new Error('Method not implemented.')
+    this.authService.currentUserSig.set(null)
+    localStorage.setItem('token', '')
   }
 }

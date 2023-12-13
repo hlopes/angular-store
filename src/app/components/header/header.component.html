@@ -1,53 +1,61 @@
 <mat-toolbar class="max-w-7xl mx-auto border-x justify-between">
   <a routerLink="/home">Angular 17 Store</a>
   <div>
-    <a routerLink="/login">Login</a>
-    <a routerLink="/register">Register</a>
-    <button mat-button (click)="onLogout()">Logout</button>
-  </div>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon
-      [matBadge]="itemsQuantity"
-      [matBadgeHidden]="!itemsQuantity"
-      aria-hidden="false"
-      >shopping_cart</mat-icon
-    >
-  </button>
-  <mat-menu #menu>
-    <div class="p-3 divide-y divide-solid">
-      <div class="pb-3 flex justify-between">
-        <span class="mr-16">{{ itemsQuantity }} Items</span>
-        <a routerLink="cart">View Cart</a>
-      </div>
-      @if(itemsQuantity) {
-      <div class="py-3">
-        @for(item of cart?.items; track item) {
-        <div class="flex justify-between font-light mb-2">
-          <span class="truncate block"
-            >{{ item.name }} x {{ item.quantity }}</span
-          >
-          <span class="font-bold">{{ item.price | currency }}</span>
+    <!-- not logged in -->
+    @if(!authService.isAuthenticated){
+    <button mat-icon-button [matMenuTriggerFor]="menuUser">
+      <mat-icon [matBadge]="itemsQuantity" [matBadgeHidden]="!itemsQuantity" aria-hidden="false"
+        >lock_outline</mat-icon
+      >
+    </button>
+    <mat-menu #menuUser>
+      <a routerLink="/login"><button mat-menu-item>Login</button></a>
+      <a routerLink="/register"><button mat-menu-item>Register</button></a>
+    </mat-menu>
+    }
+
+    <!-- logged in -->
+    @if(authService.isAuthenticated){
+    <button mat-icon-button [matMenuTriggerFor]="menuCart">
+      <mat-icon [matBadge]="itemsQuantity" [matBadgeHidden]="!itemsQuantity" aria-hidden="false"
+        >shopping_cart</mat-icon
+      >
+    </button>
+    <mat-menu #menuCart>
+      <div class="p-3 divide-y divide-solid">
+        <div class="pb-3 flex justify-between">
+          <span class="mr-16">{{ itemsQuantity }} Items</span>
+          <a routerLink="cart">View Cart</a>
+        </div>
+        @if(itemsQuantity) {
+        <div class="py-3">
+          @for(item of cart?.items; track item) {
+          <div class="flex justify-between font-light mb-2">
+            <span class="truncate block">{{ item.name }} x {{ item.quantity }}</span>
+            <span class="font-bold">{{ item.price | currency }}</span>
+          </div>
+          }
+          <div class="flex justify-between py-3 font-light">
+            Total: <span class="font-bold">{{ getTotal() | currency }}</span>
+          </div>
+          <div class="pt-3 flex justify-between">
+            <button (click)="onClearCart()" class="bg-rose-600 text-white rounded-full w-9 h-9">
+              <mat-icon>remove_shopping_cart</mat-icon>
+            </button>
+            <button routerLink="cart" class="bg-green-600 text-white rounded-full w-9 h-9">
+              <mat-icon>shopping_cart</mat-icon>
+            </button>
+          </div>
         </div>
         }
-        <div class="flex justify-between py-3 font-light">
-          Total: <span class="font-bold">{{ getTotal() | currency }}</span>
-        </div>
-        <div class="pt-3 flex justify-between">
-          <button
-            (click)="onClearCart()"
-            class="bg-rose-600 text-white rounded-full w-9 h-9"
-          >
-            <mat-icon>remove_shopping_cart</mat-icon>
-          </button>
-          <button
-            routerLink="cart"
-            class="bg-green-600 text-white rounded-full w-9 h-9"
-          >
-            <mat-icon>shopping_cart</mat-icon>
-          </button>
-        </div>
       </div>
-      }
-    </div>
-  </mat-menu>
+    </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="menuUser">
+      <img [src]="authService.currentUserSig()?.image" alt="user avatar" />
+    </button>
+    <mat-menu #menuUser>
+      <button mat-menu-item (click)="onLogout()">Logout</button>
+    </mat-menu>
+    }
+  </div>
 </mat-toolbar>

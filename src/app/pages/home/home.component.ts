@@ -32,8 +32,8 @@ const ROW_HEIGHTS: { [key: number]: number } = {
   ],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private readonly cartService = inject(CartService)
-  private readonly storeService = inject(StoreService)
+  cartService = inject(CartService)
+  storeService = inject(StoreService)
 
   cols = 3
   category?: string

@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-  inject,
-} from '@angular/core'
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core'
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatListModule } from '@angular/material/list'
 
@@ -19,7 +12,7 @@ import { Subscription } from 'rxjs'
   templateUrl: './filters.component.html',
 })
 export class FiltersComponent implements OnInit, OnDestroy {
-  private readonly storeService = inject(StoreService)
+  storeService = inject(StoreService)
 
   categories?: string[]
   categoriesSubscription?: Subscription

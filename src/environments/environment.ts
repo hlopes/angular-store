@@ -1,5 +1,5 @@
 export const environment = {
-  authApiBaseUrl: 'https://fakestoreapi.com',
+  authApiBaseUrl: 'https://api.realworld.io/api/users',
   storeApiBaseUrl: 'https://fakestoreapi.com',
   checkoutApiBaseUrl: 'http://localhost:4242',
   stripeKey:

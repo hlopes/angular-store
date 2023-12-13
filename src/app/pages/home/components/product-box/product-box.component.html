@@ -7,10 +7,7 @@
       [src]="product.image"
       alt=""
     />
-    <div
-      class="w-full"
-      [ngClass]="{ 'p-8 flex flex-col justify-between': fullWidthMode }"
-    >
+    <div class="w-full" [ngClass]="{ 'p-8 flex flex-col justify-between': fullWidthMode }">
       <div>
         <h5>{{ product.category }}</h5>
         <p class="truncate">{{ product.title }}</p>
@@ -20,9 +17,11 @@
       </div>
       <div class="flex justify-between">
         <span class="text-red-400">{{ product.price | currency }}</span>
+        @if(authService.isAuthenticated){
         <button (click)="onAddToCart()">
           <mat-icon class="text-gray-500">shopping_cart</mat-icon>
         </button>
+        }
       </div>
     </div>
   </div>

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http'
-import { Injectable, inject } from '@angular/core'
+import { Injectable, inject, signal } from '@angular/core'
+import { Observable, map } from 'rxjs'
 
 import { environment } from '../../environments/environment'
 
-import { User } from '../types/user'
-import { Observable } from 'rxjs'
+import { CreateUserRequest, LoginRequest, UserResponse } from '../types/user'
 
 @Injectable({
   providedIn: 'root',
@@ -12,24 +12,31 @@ import { Observable } from 'rxjs'
 export class AuthService {
   http = inject(HttpClient)
 
-  register(user: User): Observable<User> {
-    return this.http.post<User>(`${environment.authApiBaseUrl}/users`, {
-      ...user,
-      // name: {
-      //   firstname: 'John',
-      //   lastname: 'Doe',
-      // },
-      // address: {
-      //   city: 'kilcoole',
-      //   street: '7835 new road',
-      //   number: 3,
-      //   zipcode: '12926-3874',
-      //   geolocation: {
-      //     lat: '-37.3159',
-      //     long: '81.1496',
-      //   },
-      // },
-      // phone: '1-570-236-7033',
-    })
+  currentUserSig = signal<UserResponse | undefined | null>(undefined)
+
+  get isAuthenticated() {
+    return !!this.currentUserSig()
+  }
+
+  getCurrentUser(): Observable<UserResponse> {
+    return this.http
+      .get<{ user: UserResponse }>(`${environment.authApiBaseUrl}/user`)
+      .pipe(map((response) => response.user))
+  }
+
+  register(user: CreateUserRequest): Observable<UserResponse> {
+    return this.http
+      .post<{ user: UserResponse }>(`${environment.authApiBaseUrl}/users`, {
+        user,
+      })
+      .pipe(map((response) => response.user))
+  }
+
+  login(user: LoginRequest): Observable<UserResponse> {
+    return this.http
+      .post<{ user: UserResponse }>(`${environment.authApiBaseUrl}/users/login`, {
+        user,
+      })
+      .pipe(map((response) => response.user))
   }
 }

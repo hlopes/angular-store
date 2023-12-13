@@ -10,7 +10,7 @@ import { CartItem } from '../types/cart'
   providedIn: 'root',
 })
 export class CheckoutService {
-  private readonly http = inject(HttpClient)
+  http = inject(HttpClient)
 
   checkout(items: CartItem[]) {
     this.http
